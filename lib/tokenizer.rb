@@ -14,7 +14,7 @@ class Tokenizer
     def from(token)
       JWT.decode(token, ENV['SECRET'], VERIFY, { algorithm: ALGORITHM })
     rescue JWT::DecodeError
-      return InvalidToken
+      raise InvalidToken
     end
   end
 end

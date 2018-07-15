@@ -4,8 +4,7 @@ module Actions
   class AuthorizeToken
     class << self
       def do(token)
-        message = Authorization::Service.valid?(token)
-        message = { 'error' => 'Invalid token' }
+        message = Authorization::Service.validate(token)
 
         message
       end

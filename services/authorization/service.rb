@@ -4,8 +4,9 @@ require_relative './collection'
 module Authorization
   class Service
     class << self
-      INVALID_TOKEN = 'Invalid Token'
+      INVALID_TOKEN = 'Invalid token'
       NOT_ALLOWED = 'Email not allowed'
+      VALID_TOKEN = 'Valid token'
 
       def token_for(email)
         result = Collection.include?(email)
@@ -14,8 +15,12 @@ module Authorization
         { 'token' => tokenize(email) }
       end
 
-      def valid?(token)
-        untokenize(token)
+      def validate(token)
+        message = untokenize(token)
+        result = Collection.include?(message['email'])
+        return error(NOT_ALLOWED) unless result
+
+        { 'message' => VALID_TOKEN }
       rescue Tokenizer::InvalidToken
         error(INVALID_TOKEN)
       end
@@ -29,7 +34,7 @@ module Authorization
 
       def untokenize(token)
         email = Tokenizer.from(token)
-        email
+        email.first
       end
 
       def error(message)

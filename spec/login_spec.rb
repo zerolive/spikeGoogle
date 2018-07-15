@@ -1,3 +1,4 @@
+require_relative '../lib/tokenizer'
 require_relative '../api'
 require 'rspec'
 require 'json'
@@ -14,7 +15,7 @@ describe 'Login' do
 
   it 'returns a message with a token for a valid email' do
     email = 'allowed@email.com'
-    token = JWT.encode(email, ENV['SECRET'], 'HS256')
+    token = Tokenizer.for(email)
     message = { 'token' => token }
 
     get '/api/login', { 'email' => email }
