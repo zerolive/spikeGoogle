@@ -7,6 +7,12 @@
     <script>
       function onSuccess(googleUser) {
         var userInfo = googleUser.getBasicProfile()
+        console.log('ID: ' + userInfo.getId());
+        console.log('Full Name: ' + userInfo.getName());
+        console.log('Given Name: ' + userInfo.getGivenName());
+        console.log('Family Name: ' + userInfo.getFamilyName());
+        console.log('Image URL: ' + userInfo.getImageUrl());
+        console.log('Email: ' + userInfo.getEmail());
         console.log('Logged in as: ' + JSON.stringify(userInfo));
       }
       function onFailure(error) {
