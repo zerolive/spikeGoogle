@@ -6,7 +6,8 @@
     <div id="my-signin2"></div>
     <script>
       function onSuccess(googleUser) {
-        console.log('Logged in as: ' + googleUser.getBasicProfile());
+        var userInfo = googleUser.getBasicProfile()
+        console.log('Logged in as: ' + JSON.stringify(userInfo));
       }
       function onFailure(error) {
         console.log(error);
