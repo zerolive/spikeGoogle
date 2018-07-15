@@ -1,0 +1,9 @@
+version: '2'
+services:
+  api:
+    build: .
+    volumes:
+      - .:/api
+    ports:
+      - 8000:8000
+    command: bundle exec rackup -p 8000 -o 0.0.0.0
