@@ -2,6 +2,7 @@
 source "https://rubygems.org"
 
 gem 'sinatra', '~> 2.0.3'
+gem 'jwt', '~> 2.1.0'
 
 group :test do
   gem 'rspec', '~> 3.7.0'

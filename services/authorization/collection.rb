@@ -9,7 +9,7 @@ module Authorization
       private
 
       def list
-        []
+        ['allowed@email.com']
       end
     end
   end

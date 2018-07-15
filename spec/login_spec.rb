@@ -1,16 +1,10 @@
 require_relative '../api'
-require 'rack/test'
 require 'rspec'
 require 'json'
+require 'jwt'
 
 describe 'Login' do
-  include Rack::Test::Methods
-
-  def app
-    Api
-  end
-
-  it 'returns not allowed email error' do
+  it 'returns a message with not allowed email error' do
     error = { 'error' => 'Email not allowed' }
 
     get '/api/login', { 'email' => 'not@alowed.com' }
@@ -18,9 +12,13 @@ describe 'Login' do
     expect(response).to eq(error)
   end
 
-  def response
-    body = last_response.body
+  it 'returns a message with a token for a valid email' do
+    email = 'allowed@email.com'
+    token = JWT.encode(email, ENV['SECRET'], 'HS256')
+    message = { 'token' => token }
 
-    JSON.parse(body)
+    get '/api/login', { 'email' => email }
+
+    expect(response).to eq(message)
   end
 end

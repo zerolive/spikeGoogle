@@ -1,4 +1,5 @@
 require_relative './actions/authorize_email'
+require_relative './actions/authorize_token'
 require 'sinatra/base'
 require 'json'
 
@@ -13,6 +14,12 @@ class Api < Sinatra::Base
 
   get '/api/login' do
     authorization = Actions::AuthorizeEmail.do(params['email'])
+
+    authorization.to_json
+  end
+
+  get '/api/authorize' do
+    authorization = Actions::AuthorizeToken.do(params['token'])
 
     authorization.to_json
   end

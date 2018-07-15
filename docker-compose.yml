@@ -2,6 +2,8 @@ version: '2'
 services:
   api:
     build: .
+    environment:
+      - SECRET=secret
     volumes:
       - .:/api
     ports:
