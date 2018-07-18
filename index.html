@@ -7,17 +7,19 @@
     <script>
       function onSuccess(googleUser) {
         var userInfo = googleUser.getBasicProfile()
-        console.log('ID: ' + userInfo.getId());
-        console.log('Full Name: ' + userInfo.getName());
-        console.log('Given Name: ' + userInfo.getGivenName());
-        console.log('Family Name: ' + userInfo.getFamilyName());
-        console.log('Image URL: ' + userInfo.getImageUrl());
-        console.log('Email: ' + userInfo.getEmail());
-        console.log('Logged in as: ' + JSON.stringify(userInfo));
-      }
+        // console.log('ID: ' + userInfo.getId());
+        // console.log('Full Name: ' + userInfo.getName());
+        // console.log('Given Name: ' + userInfo.getGivenName());
+        // console.log('Family Name: ' + userInfo.getFamilyName());
+        // console.log('Image URL: ' + userInfo.getImageUrl());
+        // console.log('Email: ' + userInfo.getEmail());
+        httpGetAsync('http://localhost:8000/api/login?email=' + userInfo.getEmail());
+      };
+
       function onFailure(error) {
         console.log(error);
-      }
+      };
+
       function renderButton() {
         gapi.signin2.render('my-signin2', {
           'scope': 'profile email',
@@ -28,7 +30,24 @@
           'onsuccess': onSuccess,
           'onfailure': onFailure
         });
-      }
+      };
+
+      function httpGetAsync(theUrl, callback) {
+          var xmlHttp = new XMLHttpRequest();
+          xmlHttp.onreadystatechange = function() {
+              if (xmlHttp.readyState == 4 && xmlHttp.status == 200){
+                var response = JSON.parse(xmlHttp.responseText);
+                if (!('error' in response) && ('token' in response)){
+                  localStorage.setItem('spikeToken', response['token']);
+                  window.location.replace("http://localhost:8000/home");
+                }
+              };
+          };
+
+          var asynchronous = true;
+          xmlHttp.open("GET", theUrl, asynchronous);
+          xmlHttp.send(null);
+      };
     </script>
 
     <script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>

@@ -15,7 +15,7 @@ describe 'Login' do
 
   it 'returns a message with a token for a valid email' do
     email = 'allowed@email.com'
-    token = Tokenizer.for(email)
+    token = Tokenizer.for({ 'email' => email})
     message = { 'token' => token }
 
     get '/api/login', { 'email' => email }

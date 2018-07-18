@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Home</title>
+  </head>
+  <body onload="checkAuthorization()">
+    <script>
+      function logout() {
+        console.log('Adios');
+        localStorage.removeItem('spikeToken');
+        window.location.replace("http://localhost:8000/");
+      }
+
+      function checkAuthorization() {
+        var token = localStorage.getItem('spikeToken');
+        httpGetAsync('http://localhost:8000/api/authorize?token=' + token);
+      }
+
+      function httpGetAsync(theUrl, callback) {
+        var xmlHttp = new XMLHttpRequest();
+        xmlHttp.onreadystatechange = function() {
+          if (xmlHttp.readyState == 4 && xmlHttp.status == 200){
+            var response = JSON.parse(xmlHttp.responseText);
+            console.log('response', response);
+            if (('error' in response)) {
+              window.location.replace("http://localhost:8000/");
+            };
+          };
+        };
+
+        var asynchronous = true;
+        xmlHttp.open("GET", theUrl, asynchronous);
+        xmlHttp.send(null);
+      };
+    </script>
+    <h1>Estas logeado!!!</h1>
+    <p>
+      <a href="#" onclick="logout()">Log Out</a>
+    </p>
+  </body>
+</html>

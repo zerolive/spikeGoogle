@@ -12,6 +12,10 @@ class Api < Sinatra::Base
     send_file 'index.html'
   end
 
+  get '/home' do
+    send_file 'home.html'
+  end
+
   get '/api/login' do
     authorization = Actions::AuthorizeEmail.do(params['email'])
 

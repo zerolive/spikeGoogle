@@ -28,7 +28,7 @@ module Authorization
       private
 
       def tokenize(email)
-        token = Tokenizer.for(email)
+        token = Tokenizer.for({ 'email' => email})
         token
       end
 
